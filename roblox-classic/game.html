@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Classic Obby</title>
+<style>
+canvas {
+    background:#87ceeb;
+    display:block;
+    margin:auto;
+}
+</style>
+</head>
+<body>
+
+<canvas id="c" width="800" height="400"></canvas>
+
+<script>
+const c = document.getElementById("c");
+const ctx = c.getContext("2d");
+
+let player = {x:50,y:300,w:30,h:30,vy:0};
+
+const ground = 350;
+let gravity = 0.8;
+
+document.addEventListener("keydown",e=>{
+    if(e.code==="Space" && player.y>=ground-player.h){
+        player.vy=-12;
+    }
+});
+
+function loop(){
+    ctx.clearRect(0,0,c.width,c.height);
+
+    player.vy+=gravity;
+    player.y+=player.vy;
+
+    if(player.y>ground-player.h){
+        player.y=ground-player.h;
+        player.vy=0;
+    }
+
+    ctx.fillStyle="green";
+    ctx.fillRect(0,ground,c.width,50);
+
+    ctx.fillStyle="red";
+    ctx.fillRect(player.x,player.y,player.w,player.h);
+
+    requestAnimationFrame(loop);
+}
+loop();
+</script>
+
+</body>
+</html>
