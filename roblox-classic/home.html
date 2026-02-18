@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Home</title>
+<style>
+body { margin:0; font-family:Arial; background:#e6e6e6; }
+#top { background:#c00; color:white; padding:8px; }
+#main { display:flex; }
+#menu {
+    width:200px;
+    background:#f2f2f2;
+    padding:10px;
+}
+#menu button {
+    width:100%;
+    margin-bottom:6px;
+}
+#content {
+    flex:1;
+    padding:15px;
+    background:white;
+}
+.game {
+    border:1px solid #aaa;
+    padding:8px;
+    margin-bottom:10px;
+}
+</style>
+</head>
+<body>
+
+<div id="top">
+Bem-vindo, <span id="user"></span> | <span id="role"></span>
+</div>
+
+<div id="main">
+<div id="menu">
+    <button onclick="show('games')">Jogos</button>
+    <button onclick="show('admin')" id="adminBtn">Admin Panel</button>
+    <button onclick="logout()">Sair</button>
+</div>
+
+<div id="content">
+<div id="games">
+    <h3>Jogos</h3>
+
+    <div class="game">
+        <b>Classic Obby</b><br>
+        Um obby simples estilo 2011<br>
+        <button onclick="play()">Play</button>
+    </div>
+</div>
+
+<div id="admin" style="display:none">
+    <h3>Admin Panel</h3>
+    <p>Admins não podem punir o Owner.</p>
+    <input id="target" placeholder="Usuário alvo">
+    <button onclick="kick()">Kick</button>
+</div>
+</div>
+</div>
+
+<script>
+const logged = localStorage.getItem("logged");
+if(!logged) location.href="index.html";
+
+const users = JSON.parse(localStorage.getItem("users"));
+const me = users[logged];
+
+user.innerText = logged;
+role.innerText = me.role.toUpperCase();
+
+if(me.role === "player") adminBtn.style.display="none";
+
+function show(id){
+    games.style.display="none";
+    admin.style.display="none";
+    document.getElementById(id).style.display="block";
+}
+
+function play(){
+    location.href="game.html";
+}
+
+function logout(){
+    localStorage.removeItem("logged");
+    location.href="index.html";
+}
+
+function kick(){
+    const t = target.value;
+    if(!users[t]) return alert("Usuário não existe");
+
+    if(users[t].role === "owner"){
+        alert("Você não pode punir o Owner");
+        return;
+}
+</script>
+</body>
+</html>
