@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Login (2011)</title>
+<style>
+body {
+    font-family: Arial;
+    background:#e6e6e6;
+}
+#box {
+    width:300px;
+    margin:120px auto;
+    padding:15px;
+    background:white;
+    border:2px solid #aaa;
+}
+input, button {
+    width:100%;
+    margin-top:8px;
+    padding:6px;
+}
+</style>
+</head>
+<body>
+
+<div id="box">
+<h3>ROBLOX Login</h3>
+<input id="user" placeholder="Usuário">
+<input id="pass" type="password" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+<p id="msg"></p>
+</div>
+
+<script>
+const OWNER = "Miguel"; // dono do jogo
+
+function login(){
+    const u = user.value;
+    const p = pass.value;
+
+    if(!u || !p) return msg.innerText="Preencha.";
+
+    let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+    if(!users[u]){
+        users[u] = {
+            pass: p,
+            role: u === OWNER ? "owner" : "player"
+        };
+        localStorage.setItem("users", JSON.stringify(users));
+    }
+
+    if(users[u].pass !== p){
+        msg.innerText = "Senha errada.";
+        return;
+    }
+
+    localStorage.setItem("logged", u);
+    location.href = "home.html";
+}
+</script>
+</body>
+</html>
